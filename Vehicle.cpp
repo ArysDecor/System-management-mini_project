@@ -2,16 +2,18 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include <cstdlib> // pour rand()
-#include <ctime>   // pour std::time_t
+#include <cstdlib>
+#include <ctime>
 
+// Constructeur : initialise l'ID et prépare le nom du fichier
 Vehicle::Vehicle(int id) : id_(id) {
     dataFileName_ = "vehicle_" + std::to_string(id_) + ".txt";
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count() + id;
     randomEngine_.seed(seed);
-    initializeState();
+    initializeState();  // Initialise les données du véhicule
 }
 
+// Initialise des valeurs de départ aléatoires
 void Vehicle::initializeState() {
     speed_ = generateRandomDouble(0.0, 100.0);
     engineTemp_ = generateRandomDouble(60.0, 100.0);
@@ -33,20 +35,22 @@ void Vehicle::initializeState() {
     vibrationLevel_ = generateRandomDouble(0.1, 1.5);
 }
 
+// Fonction utilitaire pour générer un double aléatoire entre min et max
 double Vehicle::generateRandomDouble(double min, double max) {
     std::uniform_real_distribution<double> dist(min, max);
     return dist(randomEngine_);
 }
 
+// Mise à jour des données simulées (chaque seconde)
 void Vehicle::updateData() {
     speed_ = generateRandomDouble(0.0, 120.0);
     engineTemp_ = generateRandomDouble(70.0, 110.0);
     batteryVoltage_ = generateRandomDouble(11.5, 14.8);
-    fuelLevel_ = std::max(0.0, fuelLevel_ - generateRandomDouble(0.01, 0.05));
+    fuelLevel_ = std::max(0.0, fuelLevel_ - generateRandomDouble(0.01, 0.05)); // Simule la consommation
     for (int i = 0; i < 4; ++i)
         tirePressure_[i] += generateRandomDouble(-0.1, 0.1);
     engineRPM_ = static_cast<int>(speed_ * 40);
-    totalMileage_ += speed_ / 3600.0;
+    totalMileage_ += speed_ / 3600.0; // Distance parcourue en 1s
     avgConsumption_ += generateRandomDouble(-0.05, 0.05);
     oilLevel_ -= generateRandomDouble(0.001, 0.01);
     brakeWear_ += generateRandomDouble(0.01, 0.1);
@@ -59,6 +63,7 @@ void Vehicle::updateData() {
     vibrationLevel_ = generateRandomDouble(0.1, 2.0);
 }
 
+// Écrit toutes les données dans un fichier (chaque ligne = un instant)
 void Vehicle::writeDataToFile() const {
     std::ofstream outFile(dataFileName_, std::ios::app);
     if (outFile.is_open()) {
@@ -89,11 +94,13 @@ void Vehicle::writeDataToFile() const {
     }
 }
 
+// Boucle de simulation infinie
 void Vehicle::runSimulationLoop() {
-    // Efface le fichier au démarrage
+    // Nettoyage du fichier au démarrage
     std::ofstream outFile(dataFileName_, std::ios::trunc);
     outFile.close();
 
+    // Boucle principale de la simulation (toutes les 1s)
     while (true) {
         updateData();
         writeDataToFile();
@@ -101,6 +108,7 @@ void Vehicle::runSimulationLoop() {
     }
 }
 
+// Getter pour l’ID
 int Vehicle::getId() const {
     return id_;
 }
