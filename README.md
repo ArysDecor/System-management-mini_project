@@ -59,8 +59,8 @@ cd VehicleSimulation
 # 2. Créer le dossier de build
 mkdir build && cd build
 
-# 3. Générer les fichiers du projet (mode Debug)
-cmake -DCMAKE_BUILD_TYPE=Debug ..
+# 3. Générer les fichiers du projet
+cmake ..
 
 # 4. Compiler
 cmake --build .
