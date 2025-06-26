@@ -9,41 +9,40 @@
 
 class Vehicle {
 public:
-    Vehicle(int id);
+    Vehicle(int id);                 // Constructeur avec ID
 
-    void updateData();
-    void writeDataToFile() const;
-    void runSimulationLoop();
+    void updateData();              // Met à jour les données de simulation
+    void writeDataToFile() const;   // Écrit les données dans un fichier
+    void runSimulationLoop();       // Boucle infinie de simulation
 
-    // Getters
-    int getId() const;
+    int getId() const;              // Récupère l'ID du véhicule
 
 private:
-    int id_;
-    std::string dataFileName_;
-    std::mt19937 randomEngine_;
+    int id_;                        // Identifiant du véhicule
+    std::string dataFileName_;      // Nom du fichier de sortie
+    std::mt19937 randomEngine_;     // Générateur de nombres aléatoires
 
     // Données simulées
-    double speed_;               // a. Vitesse (km/h)
-    double engineTemp_;          // b. Température moteur (°C)
-    double batteryVoltage_;      // c. Tension batterie (V)
-    double fuelLevel_;           // d. Niveau de carburant (%)
-    double tirePressure_[4];     // e. Pression des pneus (psi) par roue
-    int engineRPM_;              // f. Régime moteur (tr/min)
-    double totalMileage_;        // g. Kilométrage total (km)
-    double avgConsumption_;      // h. Consommation moyenne (L/100km)
-    double oilLevel_;            // i. Niveau d’huile moteur (%)
-    double brakeWear_;           // j. Usure des freins (%)
-    double brakeFluidTemp_;      // k. Température liquide frein (°C)
-    double brakeFluidLevel_;     // l. Niveau liquide frein (%)
-    bool headlightsOn_;          // m. État des phares/clignotants (ON/OFF)
-    std::string dtcCode_;        // n. Code défaut moteur (OBD simulé)
-    double externalTemp_;        // o. Température extérieure (°C)
-    bool smokeDetected_;         // p. Présence de fumée
-    double vibrationLevel_;      // q. Niveau de vibrations (indice/g)
+    double speed_;                  // Vitesse (km/h)
+    double engineTemp_;             // Température moteur
+    double batteryVoltage_;         // Tension batterie
+    double fuelLevel_;              // Carburant (%)
+    double tirePressure_[4];        // Pression pneus (4 roues)
+    int engineRPM_;                 // Régime moteur
+    double totalMileage_;           // Kilométrage
+    double avgConsumption_;         // Consommation moyenne
+    double oilLevel_;               // Niveau d'huile
+    double brakeWear_;              // Usure des freins
+    double brakeFluidTemp_;         // Température liquide de frein
+    double brakeFluidLevel_;        // Niveau liquide de frein
+    bool headlightsOn_;             // État des phares
+    std::string dtcCode_;           // Code défaut moteur
+    double externalTemp_;           // Température extérieure
+    bool smokeDetected_;            // Détection de fumée
+    double vibrationLevel_;         // Niveau de vibration
 
-    void initializeState();
-    double generateRandomDouble(double min, double max);
+    void initializeState();                             // Initialise les valeurs aléatoires
+    double generateRandomDouble(double min, double max); // Générateur de doubles aléatoires
 };
 
 #endif // VEHICLE_H
