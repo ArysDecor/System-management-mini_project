@@ -42,7 +42,7 @@ Modifier
 ## 🛠️ Prérequis
 
 - **CMake ≥ 3.10**
-- **Compilateur C++ compatible C++17** (GCC, Clang ou MSVC)
+- **Compilateur C++ compatible C++17** (GCC, Clang ou MSVC) / VS code version 2022 
 - **Threads POSIX ou Windows (std::thread)**
 
 ---
