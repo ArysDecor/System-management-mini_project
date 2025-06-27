@@ -5,16 +5,26 @@ CREATE TABLE IF NOT EXISTS vehicules (
 );
 
 -- Création de la table des données capteurs
-CREATE TABLE IF NOT EXISTS donnees_capteurs (
+CREATE TABLE DonneesVehicule (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    vehicule_id INTEGER NOT NULL,
-    timestamp TEXT NOT NULL,
-    vitesse INTEGER,
-    niveau_carburant INTEGER,
-    temperature_moteur INTEGER,
-    kilometrage INTEGER,
-    FOREIGN KEY (vehicule_id) REFERENCES vehicules(id)
+    vehicule_id TEXT,
+    timestamp TEXT,
+    vitesse REAL,
+    temperature_moteur REAL,
+    tension_batterie REAL,
+    niveau_carburant REAL,
+    pression_pneus REAL,
+    rpm INTEGER,
+    consommation REAL,
+    etat_freins TEXT,
+    temp_liquide_frein REAL,
+    phares TEXT,
+    dtc TEXT,
+    temp_exterieure REAL,
+    fumees TEXT,
+    vibrations TEXT
 );
+
 
 -- Création de la table des conducteurs
 CREATE TABLE IF NOT EXISTS conducteurs (
