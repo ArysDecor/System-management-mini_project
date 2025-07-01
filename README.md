@@ -57,6 +57,7 @@ VehicleSimulation/
     Cloner le dépôt :
 
 git clone https://github.com/ArysDecor/System-management-mini_project
+
 cd System-management-mini_project
 
     Créer le dossier de build :
