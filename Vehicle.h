@@ -43,6 +43,8 @@ private:
 
     void initializeState();                             // Initialise les valeurs aléatoires
     double generateRandomDouble(double min, double max); // Générateur de doubles aléatoires
+    double approach(double current, double target, double maxChange);
+
 };
 
 #endif // VEHICLE_H
