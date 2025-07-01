@@ -1,120 +1,134 @@
-# 🚗 Vehicle Simulation System
+🚗 Vehicle Simulation System
 
-Ce projet simule une flotte de véhicules connectés, chacun exécuté dans un thread distinct, générant des données en temps réel sur l’état de ses capteurs. Il s’agit d’un système de base pour le prototypage de solutions de **fleet management**, **ADAS**, ou d’analyse de **données embarquées IoT**.
+Ce projet simule une flotte de véhicules connectés, chacun exécuté dans un thread distinct, générant des données en temps réel sur l’état de ses capteurs. Il s’agit d’un système de base pour le prototypage de solutions de fleet management, ADAS, ou d’analyse de données embarquées IoT.
 
----
+📌 Objectifs
 
-## 📌 Objectifs
+    Simuler une flotte de véhicules (multithreadée)
 
-- Simuler une flotte de véhicules (multithreadée)
-- Générer dynamiquement des données (vitesse, température moteur, tension batterie, etc.)
-- Écrire les données dans des fichiers texte (un par véhicule)
-- Fournir une base extensible pour des systèmes de télémétrie, de diagnostic ou de visualisation
+    Générer dynamiquement des données (vitesse, température moteur, tension batterie, etc.)
 
----
+    Écrire les données dans des fichiers texte (un par véhicule)
 
-## 🧩 Fonctionnalités principales
+    Stocker les données dans une base SQLite en temps réel
 
-- ✅ Multi-threading C++ (`std::thread`)
-- ✅ Génération réaliste de données aléatoires
-- ✅ Mise à jour des données toutes les secondes
-- ✅ Écriture structurée dans des fichiers `.txt`
-- ✅ Architecture modulaire (classe `Vehicle`)
-- ✅ Compatible Windows / Linux
+    Fournir une base extensible pour des systèmes de télémétrie, de diagnostic ou de visualisation
 
----
+🧩 Fonctionnalités principales
 
-## 📁 Structure du projet
+    ✅ Multi-threading C++ (std::thread)
+
+    ✅ Génération réaliste de données aléatoires
+
+    ✅ Mise à jour des données toutes les secondes
+
+    ✅ Écriture structurée dans des fichiers .txt
+
+    ✅ Stockage automatique dans une base SQLite (fleetdata.db)
+
+    ✅ Architecture modulaire (classe Vehicle)
+
+    ✅ Ajout du champ total_mileage (kilométrage total)
+
+    ✅ Compatible Windows / Linux
+
+📁 Structure du projet
 
 VehicleSimulation/
 ├── CMakeLists.txt # Fichier de configuration CMake
 ├── main.cpp # Point d’entrée de l’application
 ├── Vehicle.cpp # Implémentation de la classe Vehicle
 ├── Vehicle.h # Déclaration de la classe Vehicle
+├── insert_data.py # Script Python de lecture/insertion SQLite
 └── README.md # Ce fichier
 
-yaml
-Copier
-Modifier
+🛠️ Prérequis
 
----
+    CMake ≥ 3.10
 
-## 🛠️ Prérequis
+    Compilateur C++ compatible C++17 (GCC, Clang ou MSVC) ou Visual Studio 2022
 
-- **CMake ≥ 3.10**
-- **Compilateur C++ compatible C++17** (GCC, Clang ou MSVC) / VS code version 2022 
-- **Threads POSIX ou Windows (std::thread)**
+    Python 3.7+ avec sqlite3
 
----
+    Threads POSIX ou Windows (std::thread)
 
-## 🔧 Installation et compilation
+🔧 Compilation (Windows avec CMake / Visual Studio)
 
-### ✅ Étapes sous Windows (MinGW ou Visual Studio)
+    Cloner le dépôt :
 
-```bash
-# 1. Cloner le dépôt
 git clone https://github.com/votre-utilisateur/VehicleSimulation.git
 cd VehicleSimulation
 
-# 2. Créer le dossier de build
+    Créer le dossier de build :
+
 mkdir build && cd build
 
-# 3. Générer les fichiers du projet
+    Générer les fichiers du projet :
+
 cmake ..
 
-# 4. Compiler
+    Compiler :
+
 cmake --build .
 
-# 5. Aller dans le dossier contenant l’exécutable
+    Aller dans le dossier contenant l’exécutable :
+
 cd Debug
 
-# 6. Lancer la simulation
+    Lancer la simulation :
+
 VehicleSim.exe
-📂 L’exécutable est généré dans build/Debug/VehicleSim.exe
 
 👨‍💻 Utilisation
-Une fois compilé, exécutez la simulation :
 
-bash
-Copier
-Modifier
-cd build/Debug
-VehicleSim.exe
-L'application lance une boucle infinie de simulation pour chaque véhicule.
+L’application lance une boucle de simulation multithreadée pour chaque véhicule.
 
-Les fichiers vehicle_0.txt, vehicle_1.txt, … sont créés dans le même dossier.
+    Les fichiers vehicle_0.txt, vehicle_1.txt, etc. sont générés dans le dossier build/Debug/
+
+    Les données sont mises à jour chaque seconde
 
 Appuyez sur Ctrl+C pour arrêter la simulation manuellement.
 
 📤 Données générées
-Chaque véhicule écrit ses données dans un fichier vehicle_<ID>.txt (par exemple vehicle_3.txt).
-Mise à jour : toutes les secondes.
 
-Les informations enregistrées incluent :
+Chaque véhicule écrit ses données dans un fichier vehicle_<ID>.txt (ex: vehicle_3.txt).
 
-🛣️ Vitesse (km/h)
+Une ligne typique :
 
-🔁 Régime moteur (RPM)
+2025-07-01 10:22:10 | ID: 3, Speed: 92.3 km/h, RPM: 3250, Battery: 13.1 V, Fuel: 47.2%, Tires: [2.31, 2.29, 2.28, 2.30] psi, Oil: 80.5%, BrakeWear: 5.2%, BrakeFluidTemp: 90.0 C, BrakeFluidLevel: 96.3%, Lights: ON, DTC: P0420, ExtTemp: 27.5 C, Smoke: NO, Vibration: 0.45 g, Mileage: 15342.8
 
-🔋 Tension batterie (V)
+🆕 Nouveau champ :
 
-⛽ Carburant restant (%)
+    📊 Mileage (total_mileage) : le kilométrage total parcouru par le véhicule
 
-🚗 Pression des pneus (4 roues)
+💾 Insertion en base SQLite
 
-🛢️ Niveau d’huile moteur
+Un script Python insert_data.py est fourni pour :
 
-🧯 Température et niveau du liquide de frein
+    Lire en temps réel tous les fichiers vehicle_X.txt
 
-🧠 Code DTC simulé (OBD) : P0000, P0420, etc.
+    Parser chaque ligne et insérer les données dans fleetdata.db
 
-🌡️ Température extérieure
+    Gérer jusqu’à 10 véhicules en parallèle
 
-🚬 Présence de fumée
+Exécution :
 
-📳 Niveau de vibration (g)
+python insert_data.py
 
-Exemple d’une ligne de sortie :
+🗃️ Base SQLite : fleetdata.db
 
-2025-06-26 12:03:01 | ID: 0, Speed: 75.45 km/h, RPM: 3018, Battery: 13.25 V, ...
+    Table : vehicle_data
 
+    Colonnes :
+
+    id, timestamp, speed, rpm, battery, fuel, tire1-4, oil,
+    brake_wear, brake_fluid_temp, brake_fluid_level,
+    lights, dtc, external_temp, smoke, vibration, total_mileage
+
+📈 Extensions possibles
+
+    Ajout d’un dashboard de visualisation (ex: avec Streamlit, Plotly)
+
+    Export CSV / intégration avec un serveur web
+
+    Analyse de données de maintenance prédictive
